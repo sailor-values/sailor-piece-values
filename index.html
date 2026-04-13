@@ -3,84 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Values Project - Fixed</title>
+    <title>Values Project - 16 Items</title>
     <style>
         body {
             background-color: #0d0d0d;
             color: #ffffff;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 50px 20px;
+            padding: 60px 20px;
             margin: 0;
         }
 
         /* EFEITO RGB NO TÍTULO */
         .rgb-title {
-            font-size: clamp(3rem, 10vw, 5rem);
+            font-size: clamp(3.5rem, 12vw, 6rem);
             font-weight: 900;
             text-transform: uppercase;
             position: relative;
             text-shadow: 
-                3px 0 0 rgba(255,0,0,0.7), 
-                -3px 0 0 rgba(0,255,255,0.7);
-            animation: rgb-shake 0.5s infinite;
-            margin-bottom: 50px;
+                3px 0 0 rgba(255,0,0,0.8), 
+                -3px 0 0 rgba(0,255,255,0.8);
+            animation: rgb-shake 0.4s infinite;
+            margin-bottom: 60px;
+            letter-spacing: -2px;
         }
 
         @keyframes rgb-shake {
-            0% { text-shadow: 3px 0 0 rgba(255,0,0,0.7), -3px 0 0 rgba(0,255,255,0.7); }
-            25% { text-shadow: -3px 2px 0 rgba(255,0,0,0.7), 3px -2px 0 rgba(0,255,255,0.7); }
-            50% { text-shadow: 2px -3px 0 rgba(255,0,0,0.7), -2px 3px 0 rgba(0,255,255,0.7); }
-            75% { text-shadow: -2px -2px 0 rgba(255,0,0,0.7), 2px 2px 0 rgba(0,255,255,0.7); }
-            100% { text-shadow: 3px 0 0 rgba(255,0,0,0.7), -3px 0 0 rgba(0,255,255,0.7); }
+            0% { text-shadow: 3px 0 0 rgba(255,0,0,0.8), -3px 0 0 rgba(0,255,255,0.8); transform: translate(0); }
+            25% { text-shadow: -2px 2px 0 rgba(255,0,0,0.8), 2px -2px 0 rgba(0,255,255,0.8); transform: translate(-1px, 1px); }
+            50% { text-shadow: 2px -3px 0 rgba(255,0,0,0.8), -2px 3px 0 rgba(0,255,255,0.8); transform: translate(1px, -1px); }
+            75% { text-shadow: -3px -1px 0 rgba(255,0,0,0.8), 3px 1px 0 rgba(0,255,255,0.8); transform: translate(-1px, -1px); }
+            100% { text-shadow: 3px 0 0 rgba(255,0,0,0.8), -3px 0 0 rgba(0,255,255,0.8); transform: translate(0); }
         }
 
         .main-container {
             width: 100%;
-            max-width: 600px;
+            max-width: 550px;
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            gap: 25px; /* Espaço entre cada par de blocos */
         }
 
         .value-block {
             display: flex;
             flex-direction: column;
+            transition: transform 0.2s ease;
         }
 
         /* UNIÃO DOS CAMPOS */
         .value-block input {
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-bottom: none; /* Remove a borda de baixo para colar no de baixo */
-            border-radius: 8px 8px 0 0;
-            padding: 12px 15px;
-            color: #00fff2; /* Cor de destaque para categoria */
-            font-size: 14px;
-            font-weight: bold;
+            background: #151515;
+            border: 1px solid #2a2a2a;
+            border-bottom: none;
+            border-radius: 6px 6px 0 0;
+            padding: 14px 18px;
+            color: #00fff2; /* Ciano para destaque */
+            font-size: 13px;
+            font-weight: 800;
             text-transform: uppercase;
+            letter-spacing: 1px;
             outline: none;
             cursor: default;
         }
 
         .value-block textarea {
-            background: #1a1a1a;
-            border: 1px solid #333;
-            border-radius: 0 0 8px 8px;
-            padding: 12px 15px;
-            color: #ccc;
-            font-size: 16px;
+            background: #151515;
+            border: 1px solid #2a2a2a;
+            border-radius: 0 0 6px 6px;
+            padding: 14px 18px;
+            color: #a0a0a0;
+            font-size: 15px;
+            line-height: 1.5;
             outline: none;
             resize: none;
-            height: 80px;
+            height: 70px;
             cursor: default;
+            font-family: inherit;
         }
 
-        /* Efeito visual de que não é editável */
-        input:focus, textarea:focus {
-            border-color: #333;
+        /* Scrollbar customizada para ficar dark */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0d0d0d;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 10px;
         }
     </style>
 </head>
@@ -88,57 +100,27 @@
 
     <h1 class="rgb-title">Values</h1>
 
-    <div class="main-container">
-        <div class="value-block">
-            <input type="text" value="Categoria 01" readonly>
-            <textarea readonly>Seu texto descritivo aqui...</textarea>
+    <div class="main-container" id="blocks-container">
         </div>
 
-        <div class="value-block">
-            <input type="text" value="Categoria 02" readonly>
-            <textarea readonly>Seu texto descritivo aqui...</textarea>
-        </div>
-
-        <div class="value-block">
-            <input type="text" value="Categoria 03" readonly>
-            <textarea readonly>Seu texto descritivo aqui...</textarea>
-        </div>
-
-        <div class="value-block">
-            <input type="text" value="Categoria 04" readonly>
-            <textarea readonly>Seu texto descritivo aqui...</textarea>
-        </div>
-
-        <div class="value-block">
-            <input type="text" value="Categoria 05" readonly>
-            <textarea readonly>Seu texto descritivo aqui...</textarea>
-        </div>
-
-        <div class="value-block">
-            <input type="text" value="Categoria 06" readonly>
-            <textarea readonly>Seu texto descritivo aqui...</textarea>
-        </div>
-
-        <div class="value-block">
-            <input type="text" value="Categoria 07" readonly>
-            <textarea readonly>Seu texto descritivo aqui...</textarea>
-        </div>
-
-        <div class="value-block">
-            <input type="text" value="Categoria 08" readonly>
-            <textarea readonly>Seu texto descritivo aqui...</textarea>
-        </div>
-
-        <div class="value-block">
-            <input type="text" value="Categoria 09" readonly>
-            <textarea readonly>Seu texto descritivo aqui...</textarea>
-        </div>
-
-        <div class="value-block">
-            <input type="text" value="Categoria 10" readonly>
-            <textarea readonly>Seu texto descritivo aqui...</textarea>
-        </div>
-    </div>
+    <script>
+        const container = document.getElementById('blocks-container');
+        
+        for (let i = 1; i <= 16; i++) {
+            const block = document.createElement('div');
+            block.className = 'value-block';
+            
+            // Formatando o número com zero à esquerda (ex: 01, 02...)
+            const num = i < 10 ? `0${i}` : i;
+            
+            block.innerHTML = `
+                <input type="text" value="CATEGORIA ${num}" readonly>
+                <textarea readonly>Descrição do valor ou conteúdo referente à categoria ${num}...</textarea>
+            `;
+            
+            container.appendChild(block);
+        }
+    </script>
 
 </body>
 </html>
