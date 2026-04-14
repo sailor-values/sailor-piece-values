@@ -16,22 +16,15 @@
             margin: 0;
         }
 
+        /* LOGO TOTALMENTE BRANCA E ESTÁTICA */
         .rgb-title {
             font-size: clamp(2.5rem, 8vw, 4.5rem);
             font-weight: 900;
             text-transform: uppercase;
-            position: relative;
-            text-shadow: 2px 0 0 #ff0000, -2px 0 0 #00fff2;
-            animation: rgb-shake 0.4s infinite;
+            color: #ffffff; /* Cor branca sólida */
             margin: 10px 0 20px 0;
             text-align: center;
-        }
-
-        @keyframes rgb-shake {
-            0% { transform: translate(0); text-shadow: 2px 0 0 #ff0000, -2px 0 0 #00fff2; }
-            25% { transform: translate(-1px, 1px); text-shadow: -2px 1px 0 #ff0000, 2px -1px 0 #00fff2; }
-            50% { transform: translate(1px, -1px); text-shadow: 1px -2px 0 #ff0000, -1px 2px 0 #00fff2; }
-            100% { transform: translate(0); }
+            letter-spacing: 2px;
         }
 
         .search-container {
