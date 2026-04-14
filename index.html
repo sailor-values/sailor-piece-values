@@ -16,12 +16,11 @@
             margin: 0;
         }
 
-        /* LOGO TOTALMENTE BRANCA E ESTÁTICA */
         .rgb-title {
             font-size: clamp(2.5rem, 8vw, 4.5rem);
             font-weight: 900;
             text-transform: uppercase;
-            color: #ffffff; /* Cor branca sólida */
+            color: #ffffff;
             margin: 10px 0 20px 0;
             text-align: center;
             letter-spacing: 2px;
@@ -30,7 +29,7 @@
         .search-container {
             width: 100%;
             max-width: 600px;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
         }
 
         #searchInput {
@@ -50,6 +49,36 @@
         #searchInput:focus {
             border-color: #00fff2;
             box-shadow: 0 0 15px rgba(0, 255, 242, 0.2);
+        }
+
+        /* SISTEMA DE BOTÕES */
+        .tab-container {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            background: #1a1a1a;
+            border: 2px solid #333;
+            border-radius: 8px;
+            color: #888;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.2s;
+            letter-spacing: 1px;
+        }
+
+        .tab-btn.active {
+            background: #00fff2;
+            color: #0a0a0a;
+            border-color: #00fff2;
+            box-shadow: 0 0 10px rgba(0, 255, 242, 0.3);
         }
 
         .main-container {
@@ -97,6 +126,16 @@
             font-family: 'Consolas', monospace;
         }
 
+        /* ESTILO PARA SETS (TEXTO MAIOR E CENTRALIZADO) */
+        .sets-mode textarea {
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 40px; /* Compensa a centralização no textarea */
+        }
+
         .hidden {
             display: none !important;
         }
@@ -113,10 +152,15 @@
         <input type="text" id="searchInput" placeholder="search category or item...">
     </div>
 
+    <div class="tab-container">
+        <button class="tab-btn active" id="btn-items">items</button>
+        <button class="tab-btn" id="btn-sets">sets</button>
+    </div>
+
     <div class="main-container" id="blocks-container"></div>
 
     <script>
-        const data = [
+        const itemsData = [
             { cat: "MISC", items: "Upper Seal ~5\nAbyss Sigil ~3\nFrost Relic ~2\nTempest Relic ~0.5\nCalamity Seal ~2\nChrysalis Sigil ~2\nDark Grail ~1\nGrail ~0.3\nBroken Sword ~1\nTransmutation Shard ~20\nAdamantite ~1\nSlime Shard ~0.25\nEnergy Shard ~0.3" },
             { cat: "KEYS", items: "Tower ~3\nSlime ~2\nBoss Rush ~1\nDungeon ~1\nBoss ~0.05" },
             { cat: "REROLL", items: "Haki N/A\nTrait ~0.04\nRace ~0.02\nEnergy Shard ~0.3\nPower Shard ~5.5\nPassive Shard ~0.5" },
@@ -146,11 +190,30 @@
             { cat: "SHADOW MONARCH (DUNGEON)", items: "Monarch Core ~8\nMonarch Essence ~20\nKamish Dagger ~65\nShadow Crystal ~90" }
         ];
 
+        // Lista para os 20 Sets (Você mudará os nomes depois)
+        const setsData = Array.from({ length: 20 }, (_, i) => ({
+            cat: `SET ${i + 1}`,
+            items: "Conteúdo do Set Centralizado"
+        }));
+
         const container = document.getElementById('blocks-container');
         const searchInput = document.getElementById('searchInput');
+        const btnItems = document.getElementById('btn-items');
+        const btnSets = document.getElementById('btn-sets');
 
-        function renderBlocks() {
-            data.forEach(item => {
+        let currentMode = 'items'; // 'items' ou 'sets'
+
+        function renderBlocks(mode) {
+            container.innerHTML = '';
+            const activeData = mode === 'items' ? itemsData : setsData;
+            
+            if (mode === 'sets') {
+                container.classList.add('sets-mode');
+            } else {
+                container.classList.remove('sets-mode');
+            }
+
+            activeData.forEach(item => {
                 const block = document.createElement('div');
                 block.className = 'value-block';
                 block.innerHTML = `
@@ -159,23 +222,47 @@
                 `;
                 container.appendChild(block);
             });
+            // Re-aplica a busca caso haja texto no input
+            filterBlocks(searchInput.value);
         }
 
-        searchInput.addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase();
+        function filterBlocks(term) {
+            const lowTerm = term.toLowerCase();
             const blocks = document.querySelectorAll('.value-block');
             blocks.forEach(block => {
                 const category = block.querySelector('input').value.toLowerCase();
                 const content = block.querySelector('textarea').value.toLowerCase();
-                if (category.includes(term) || content.includes(term)) {
+                if (category.includes(lowTerm) || content.includes(lowTerm)) {
                     block.classList.remove('hidden');
                 } else {
                     block.classList.add('hidden');
                 }
             });
-        });
+        }
 
-        renderBlocks();
+        function handleTabClick(mode, btn) {
+            if (currentMode === mode) {
+                // Se clicar no já ativo, desativa tudo
+                currentMode = null;
+                btn.classList.remove('active');
+                container.innerHTML = '';
+            } else {
+                // Troca de aba
+                currentMode = mode;
+                btnItems.classList.remove('active');
+                btnSets.classList.remove('active');
+                btn.classList.add('active');
+                renderBlocks(mode);
+            }
+        }
+
+        btnItems.addEventListener('click', () => handleTabClick('items', btnItems));
+        btnSets.addEventListener('click', () => handleTabClick('sets', btnSets));
+
+        searchInput.addEventListener('input', (e) => filterBlocks(e.target.value));
+
+        // Inicialização
+        renderBlocks('items');
     </script>
 </body>
 </html>
