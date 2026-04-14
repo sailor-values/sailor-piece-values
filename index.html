@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Values List - Search System</title>
+    <title>Values List - Fixed Grid</title>
     <style>
         body {
             background-color: #0a0a0a;
@@ -12,11 +12,11 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px 15px; /* Reduzido o padding topo para subir o título */
+            padding: 20px 15px;
             margin: 0;
         }
 
-        /* TÍTULO POSICIONADO MAIS ACIMA */
+        /* TÍTULO RGB */
         .rgb-title {
             font-size: clamp(2.5rem, 8vw, 4.5rem);
             font-weight: 900;
@@ -24,7 +24,7 @@
             position: relative;
             text-shadow: 2px 0 0 #ff0000, -2px 0 0 #00fff2;
             animation: rgb-shake 0.4s infinite;
-            margin: 10px 0 20px 0; /* Margens bem reduzidas */
+            margin: 10px 0 20px 0;
             text-align: center;
         }
 
@@ -61,19 +61,21 @@
             box-shadow: 0 0 15px rgba(0, 255, 242, 0.2);
         }
 
-        /* GRID DE RESULTADOS */
+        /* GRID AJUSTADO: auto-fill mantém o tamanho das colunas fixo */
         .main-container {
             width: 100%;
             max-width: 1100px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 20px;
+            justify-content: center; /* Centraliza o bloco se sobrar apenas um */
         }
 
         .value-block {
             display: flex;
             flex-direction: column;
             transition: 0.3s;
+            height: fit-content;
         }
 
         /* CAMPOS */
@@ -106,7 +108,6 @@
             font-family: 'Consolas', monospace;
         }
 
-        /* Esconder blocos que não batem com a busca */
         .hidden {
             display: none !important;
         }
@@ -147,7 +148,7 @@
             { cat: "QIN SHI", items: "Jade Tablet N/A\nImperial Seal N/A" },
             { cat: "ICHIGO", items: "Soul Fragment N/A\nSpiritual Core N/A\nSoul Flame ~100" },
             { cat: "KING OF HEROES", items: "Throne Remnant ~19\nAncient Shard ~19\nGolden Essence ~19\nPhantasm Core ~170" },
-            { cat: "BLESSED MAIDEN", items: "Tide Remnant ~4\ Gale Essence ~12\nAero Core ~60\nCelestial Mark ~70" },
+            { cat: "BLESSED MAIDEN", items: "Tide Remnant ~4\nGale Essence ~12\nAero Core ~60\nCelestial Mark ~70" },
             { cat: "CORRUPTED KNIGHT", items: "Morgan Remnant ~10\nAlter Essence ~20\nCorruption Core ~90\nCorrupt Crown ~170" },
             { cat: "MOON SLAYER", items: "Demon Remnant ~10\nLunar Essence ~10\nCrescent Shard ~70\nMoon Crest ~84" },
             { cat: "ICE QUEEN", items: "Battle Shard ~2\nGlacier Remnant ~3\nFrozen Brand ~50\nIce Core ~70" },
@@ -158,7 +159,6 @@
         const container = document.getElementById('blocks-container');
         const searchInput = document.getElementById('searchInput');
 
-        // Função para renderizar blocos
         function renderBlocks() {
             data.forEach(item => {
                 const block = document.createElement('div');
@@ -171,7 +171,6 @@
             });
         }
 
-        // Lógica de Busca
         searchInput.addEventListener('input', (e) => {
             const term = e.target.value.toLowerCase();
             const blocks = document.querySelectorAll('.value-block');
