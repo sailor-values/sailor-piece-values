@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Values List - Fixed Grid</title>
+    <title>Values List</title>
     <style>
         body {
             background-color: #0a0a0a;
@@ -61,14 +61,14 @@
             box-shadow: 0 0 15px rgba(0, 255, 242, 0.2);
         }
 
-        /* GRID AJUSTADO: auto-fill mantém o tamanho das colunas fixo */
+        /* GRID FIXO */
         .main-container {
             width: 100%;
             max-width: 1100px;
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 20px;
-            justify-content: center; /* Centraliza o bloco se sobrar apenas um */
+            justify-content: center;
         }
 
         .value-block {
@@ -78,7 +78,6 @@
             height: fit-content;
         }
 
-        /* CAMPOS */
         .value-block input {
             background: #161616;
             border: 1px solid #333;
@@ -174,11 +173,9 @@
         searchInput.addEventListener('input', (e) => {
             const term = e.target.value.toLowerCase();
             const blocks = document.querySelectorAll('.value-block');
-
             blocks.forEach(block => {
                 const category = block.querySelector('input').value.toLowerCase();
                 const content = block.querySelector('textarea').value.toLowerCase();
-
                 if (category.includes(term) || content.includes(term)) {
                     block.classList.remove('hidden');
                 } else {
@@ -189,6 +186,5 @@
 
         renderBlocks();
     </script>
-
 </body>
 </html>
