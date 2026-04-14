@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Values List - Complete</title>
+    <title>Values List - Search System</title>
     <style>
         body {
             background-color: #0a0a0a;
@@ -12,19 +12,19 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 40px 15px;
+            padding: 20px 15px; /* Reduzido o padding topo para subir o título */
             margin: 0;
         }
 
-        /* TÍTULO COM EFEITO RGB */
+        /* TÍTULO POSICIONADO MAIS ACIMA */
         .rgb-title {
-            font-size: clamp(3rem, 10vw, 5.5rem);
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
             font-weight: 900;
             text-transform: uppercase;
             position: relative;
             text-shadow: 2px 0 0 #ff0000, -2px 0 0 #00fff2;
             animation: rgb-shake 0.4s infinite;
-            margin-bottom: 40px;
+            margin: 10px 0 20px 0; /* Margens bem reduzidas */
             text-align: center;
         }
 
@@ -35,7 +35,33 @@
             100% { transform: translate(0); }
         }
 
-        /* CONTAINER EM GRID */
+        /* BARRA DE BUSCA */
+        .search-container {
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 15px;
+            background: #111;
+            border: 2px solid #333;
+            border-radius: 8px;
+            color: #00fff2;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        #searchInput:focus {
+            border-color: #00fff2;
+            box-shadow: 0 0 15px rgba(0, 255, 242, 0.2);
+        }
+
+        /* GRID DE RESULTADOS */
         .main-container {
             width: 100%;
             max-width: 1100px;
@@ -47,16 +73,10 @@
         .value-block {
             display: flex;
             flex-direction: column;
-            filter: grayscale(0.3);
             transition: 0.3s;
         }
 
-        .value-block:hover {
-            filter: grayscale(0);
-            transform: translateY(-2px);
-        }
-
-        /* CAMPOS UNIFICADOS */
+        /* CAMPOS */
         .value-block input {
             background: #161616;
             border: 1px solid #333;
@@ -81,12 +101,16 @@
             line-height: 1.5;
             outline: none;
             resize: none;
-            height: 120px;
+            height: 140px;
             cursor: default;
             font-family: 'Consolas', monospace;
         }
 
-        /* SCROLLBAR */
+        /* Esconder blocos que não batem com a busca */
+        .hidden {
+            display: none !important;
+        }
+
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
     </style>
@@ -94,6 +118,10 @@
 <body>
 
     <h1 class="rgb-title">Values</h1>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="BUSCAR CATEGORIA OU ITEM...">
+    </div>
 
     <div class="main-container" id="blocks-container"></div>
 
@@ -119,7 +147,7 @@
             { cat: "QIN SHI", items: "Jade Tablet N/A\nImperial Seal N/A" },
             { cat: "ICHIGO", items: "Soul Fragment N/A\nSpiritual Core N/A\nSoul Flame ~100" },
             { cat: "KING OF HEROES", items: "Throne Remnant ~19\nAncient Shard ~19\nGolden Essence ~19\nPhantasm Core ~170" },
-            { cat: "BLESSED MAIDEN", items: "Tide Remnant ~4\nGale Essence ~12\nAero Core ~60\nCelestial Mark ~70" },
+            { cat: "BLESSED MAIDEN", items: "Tide Remnant ~4\ Gale Essence ~12\nAero Core ~60\nCelestial Mark ~70" },
             { cat: "CORRUPTED KNIGHT", items: "Morgan Remnant ~10\nAlter Essence ~20\nCorruption Core ~90\nCorrupt Crown ~170" },
             { cat: "MOON SLAYER", items: "Demon Remnant ~10\nLunar Essence ~10\nCrescent Shard ~70\nMoon Crest ~84" },
             { cat: "ICE QUEEN", items: "Battle Shard ~2\nGlacier Remnant ~3\nFrozen Brand ~50\nIce Core ~70" },
@@ -128,16 +156,39 @@
         ];
 
         const container = document.getElementById('blocks-container');
-        
-        data.forEach(item => {
-            const block = document.createElement('div');
-            block.className = 'value-block';
-            block.innerHTML = `
-                <input type="text" value="${item.cat}" readonly>
-                <textarea readonly>${item.items}</textarea>
-            `;
-            container.appendChild(block);
+        const searchInput = document.getElementById('searchInput');
+
+        // Função para renderizar blocos
+        function renderBlocks() {
+            data.forEach(item => {
+                const block = document.createElement('div');
+                block.className = 'value-block';
+                block.innerHTML = `
+                    <input type="text" value="${item.cat}" readonly>
+                    <textarea readonly>${item.items}</textarea>
+                `;
+                container.appendChild(block);
+            });
+        }
+
+        // Lógica de Busca
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const blocks = document.querySelectorAll('.value-block');
+
+            blocks.forEach(block => {
+                const category = block.querySelector('input').value.toLowerCase();
+                const content = block.querySelector('textarea').value.toLowerCase();
+
+                if (category.includes(term) || content.includes(term)) {
+                    block.classList.remove('hidden');
+                } else {
+                    block.classList.add('hidden');
+                }
+            });
         });
+
+        renderBlocks();
     </script>
 
 </body>
