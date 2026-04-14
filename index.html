@@ -3,123 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Values Project - 16 Items</title>
+    <title>Values List - Complete</title>
     <style>
         body {
-            background-color: #0d0d0d;
+            background-color: #0a0a0a;
             color: #ffffff;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 60px 20px;
+            padding: 40px 15px;
             margin: 0;
         }
 
-        /* EFEITO RGB NO TÍTULO */
+        /* TÍTULO COM EFEITO RGB */
         .rgb-title {
-            font-size: clamp(3.5rem, 12vw, 6rem);
+            font-size: clamp(3rem, 10vw, 5.5rem);
             font-weight: 900;
             text-transform: uppercase;
             position: relative;
-            text-shadow: 
-                3px 0 0 rgba(255,0,0,0.8), 
-                -3px 0 0 rgba(0,255,255,0.8);
+            text-shadow: 2px 0 0 #ff0000, -2px 0 0 #00fff2;
             animation: rgb-shake 0.4s infinite;
-            margin-bottom: 60px;
-            letter-spacing: -2px;
+            margin-bottom: 40px;
+            text-align: center;
         }
 
         @keyframes rgb-shake {
-            0% { text-shadow: 3px 0 0 rgba(255,0,0,0.8), -3px 0 0 rgba(0,255,255,0.8); transform: translate(0); }
-            25% { text-shadow: -2px 2px 0 rgba(255,0,0,0.8), 2px -2px 0 rgba(0,255,255,0.8); transform: translate(-1px, 1px); }
-            50% { text-shadow: 2px -3px 0 rgba(255,0,0,0.8), -2px 3px 0 rgba(0,255,255,0.8); transform: translate(1px, -1px); }
-            75% { text-shadow: -3px -1px 0 rgba(255,0,0,0.8), 3px 1px 0 rgba(0,255,255,0.8); transform: translate(-1px, -1px); }
-            100% { text-shadow: 3px 0 0 rgba(255,0,0,0.8), -3px 0 0 rgba(0,255,255,0.8); transform: translate(0); }
+            0% { transform: translate(0); text-shadow: 2px 0 0 #ff0000, -2px 0 0 #00fff2; }
+            25% { transform: translate(-1px, 1px); text-shadow: -2px 1px 0 #ff0000, 2px -1px 0 #00fff2; }
+            50% { transform: translate(1px, -1px); text-shadow: 1px -2px 0 #ff0000, -1px 2px 0 #00fff2; }
+            100% { transform: translate(0); }
         }
 
+        /* CONTAINER EM GRID */
         .main-container {
             width: 100%;
-            max-width: 550px;
-            display: flex;
-            flex-direction: column;
-            gap: 25px; /* Espaço entre cada par de blocos */
+            max-width: 1100px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
         }
 
         .value-block {
             display: flex;
             flex-direction: column;
-            transition: transform 0.2s ease;
+            filter: grayscale(0.3);
+            transition: 0.3s;
         }
 
-        /* UNIÃO DOS CAMPOS */
+        .value-block:hover {
+            filter: grayscale(0);
+            transform: translateY(-2px);
+        }
+
+        /* CAMPOS UNIFICADOS */
         .value-block input {
-            background: #151515;
-            border: 1px solid #2a2a2a;
+            background: #161616;
+            border: 1px solid #333;
             border-bottom: none;
-            border-radius: 6px 6px 0 0;
-            padding: 14px 18px;
-            color: #00fff2; /* Ciano para destaque */
+            border-radius: 4px 4px 0 0;
+            padding: 12px;
+            color: #00fff2;
             font-size: 13px;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 1px;
             outline: none;
             cursor: default;
         }
 
         .value-block textarea {
-            background: #151515;
-            border: 1px solid #2a2a2a;
-            border-radius: 0 0 6px 6px;
-            padding: 14px 18px;
-            color: #a0a0a0;
-            font-size: 15px;
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 0 0 4px 4px;
+            padding: 12px;
+            color: #bbb;
+            font-size: 13px;
             line-height: 1.5;
             outline: none;
             resize: none;
-            height: 70px;
+            height: 120px;
             cursor: default;
-            font-family: inherit;
+            font-family: 'Consolas', monospace;
         }
 
-        /* Scrollbar customizada para ficar dark */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0d0d0d;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #333;
-            border-radius: 10px;
-        }
+        /* SCROLLBAR */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
     </style>
 </head>
 <body>
 
     <h1 class="rgb-title">Values</h1>
 
-    <div class="main-container" id="blocks-container">
-        </div>
+    <div class="main-container" id="blocks-container"></div>
 
     <script>
+        const data = [
+            { cat: "MISC", items: "Upper Seal ~5\nAbyss Sigil ~3\nFrost Relic ~2\nTempest Relic ~0.5\nCalamity Seal ~2\nChrysalis Sigil ~2\nDark Grail ~1\nGrail ~0.3\nBroken Sword ~1\nTransmutation Shard ~20\nSlime Shard ~0.25\nEnergy Shard ~0.3" },
+            { cat: "KEYS", items: "Tower ~3\nSlime ~2\nBoss Rush ~1\nDungeon ~1\nBoss ~0.05" },
+            { cat: "REROLL", items: "Haki N/A\nTrait ~0.04\nRace ~0.02\nEnergy Shard ~0.3\nPower Shard ~5.5\nPassive Shard ~0.5" },
+            { cat: "CRATES", items: "Aura Crate ~350\nCosmetic Crate ~160\nSecret Chest ~112\nMythical Chest ~2\nLegendary Chest ~1\nEpic Chest ~0.5\nRare Chest N/A\nCommon Chest N/A" },
+            { cat: "GAME PASS", items: "2x Drop ~150k\n2x Luck ~100k\n2x Gem ~20k\n2x Money ~5k\n2x Exp ~3k" },
+            { cat: "YUJI", items: "Energy Core ~2\nFlash Impact ~2\nDivergent Pulse ~10" },
+            { cat: "GOJO", items: "Limitless Key ~1\nVoid Fragment ~5\nLimitless Ring ~5\nInfinity Core ~10" },
+            { cat: "SUKUNA", items: "Malevolent Key ~1\nCursed Finger ~2\nDismantle Fang ~50\nCrimson Heart ~30" },
+            { cat: "SOLO HUNTER", items: "Abyss Edge ~2\nDark Ring ~54\nShadow Heart ~40" },
+            { cat: "VAMPIRE KING", items: "Soul Amulet ~20\nCasull ~40\nBlood Ring ~130" },
+            { cat: "AIZEN", items: "Mirage Pendant ~2\nIllusion Prism ~2\nReiatsu Core ~50\nHogyoku Fragment ~140" },
+            { cat: "MADARA", items: "Power Remnant ~4\nBattle Sigil ~35\nEternal Core ~40\nPath Fragment ~210" },
+            { cat: "SUKUNA V2", items: "Awakened Cursed Finger ~2\nVessel Ring ~4x\nMalevolent Soul ~5\nCursed Flesh ~80" },
+            { cat: "GOJO V2", items: "Reversal Pulse ~2\nSix Eye ~5\nBlue Singularity ~5\nInfinity Essence ~80" },
+            { cat: "RIMURU (SLIME)", items: "Sage Pulse ~4\nTempest Seal ~20\nSlime Remnant ~20\nSlime Core ~160" },
+            { cat: "ANOS", items: "Demonic Fragment ~5\nDemonic Shard ~10\nDestruction Eye ~90\nImperial Mark ~95" },
+            { cat: "TRUE AIZEN", items: "Fusion Ring ~15\nDivinity Essence ~30\nTranscendent Core ~90\nEvolution Fragment ~170" },
+            { cat: "QIN SHI", items: "Jade Tablet N/A\nImperial Seal N/A" },
+            { cat: "ICHIGO", items: "Soul Fragment N/A\nSpiritual Core N/A\nSoul Flame ~100" },
+            { cat: "KING OF HEROES", items: "Throne Remnant ~19\nAncient Shard ~19\nGolden Essence ~19\nPhantasm Core ~170" },
+            { cat: "BLESSED MAIDEN", items: "Tide Remnant ~4\nGale Essence ~12\nAero Core ~60\nCelestial Mark ~70" },
+            { cat: "CORRUPTED KNIGHT", items: "Morgan Remnant ~10\nAlter Essence ~20\nCorruption Core ~90\nCorrupt Crown ~170" },
+            { cat: "MOON SLAYER", items: "Demon Remnant ~10\nLunar Essence ~10\nCrescent Shard ~70\nMoon Crest ~84" },
+            { cat: "ICE QUEEN", items: "Battle Shard ~2\nGlacier Remnant ~3\nFrozen Brand ~50\nIce Core ~70" },
+            { cat: "SHADOW (DUNGEON)", items: "Umbral Capsule ~2\nVoid Seed ~10\nShadow Essence ~10\nAtomic Core ~140" },
+            { cat: "SHADOW MONARCH (DUNGEON)", items: "Monarch Core ~8\nMonarch Essence ~20\nKamish Dagger ~65\nShadow Crystal ~90" }
+        ];
+
         const container = document.getElementById('blocks-container');
         
-        for (let i = 1; i <= 16; i++) {
+        data.forEach(item => {
             const block = document.createElement('div');
             block.className = 'value-block';
-            
-            // Formatando o número com zero à esquerda (ex: 01, 02...)
-            const num = i < 10 ? `0${i}` : i;
-            
             block.innerHTML = `
-                <input type="text" value="CATEGORIA ${num}" readonly>
-                <textarea readonly>Descrição do valor ou conteúdo referente à categoria ${num}...</textarea>
+                <input type="text" value="${item.cat}" readonly>
+                <textarea readonly>${item.items}</textarea>
             `;
-            
             container.appendChild(block);
-        }
+        });
     </script>
 
 </body>
