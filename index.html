@@ -14,6 +14,7 @@
             align-items: center;
             padding: 20px 15px;
             margin: 0;
+            position: relative;
         }
 
         /* LOGO TOTALMENTE BRANCA E ESTÁTICA */
@@ -21,10 +22,30 @@
             font-size: clamp(2.5rem, 8vw, 4.5rem);
             font-weight: 900;
             text-transform: uppercase;
-            color: #ffffff; /* Cor branca sólida */
+            color: #ffffff; 
             margin: 10px 0 20px 0;
             text-align: center;
             letter-spacing: 2px;
+        }
+
+        /* BLOCO DE CODES NO CANTO SUPERIOR DIREITO */
+        .codes-fixed {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 250px;
+            z-index: 100;
+        }
+
+        @media (max-width: 1000px) {
+            .codes-fixed {
+                position: relative;
+                top: 0;
+                right: 0;
+                width: 100%;
+                max-width: 600px;
+                margin-bottom: 20px;
+            }
         }
 
         .search-container {
@@ -97,6 +118,10 @@
             font-family: 'Consolas', monospace;
         }
 
+        /* Estilo especial para a caixa de Codes */
+        .codes-style input { color: #ff00ff !important; border-color: #444; }
+        .codes-style textarea { height: 250px; border-color: #444; color: #fff; }
+
         .hidden {
             display: none !important;
         }
@@ -106,6 +131,27 @@
     </style>
 </head>
 <body>
+
+    <div class="codes-fixed">
+        <div class="value-block codes-style">
+            <input type="text" value="CODES" readonly>
+            <textarea readonly>ICEQUEEN
+FREECODE
+MINIUPDATEBIGONESOON
+~~
+SORRYFORTRADELOCK
+SORRYFORTHESEISSUES
+~~
+1MMEMBERSTYSMGUYS
+~~
+700MVISITSWOWW
+500MVISITSWOAHH
+400MVISITSWOAHH
+~~
+800KLIKESTYSM
+700KLIKESTYSM</textarea>
+        </div>
+    </div>
 
     <h1 class="rgb-title">Values</h1>
 
@@ -164,7 +210,7 @@
 
         searchInput.addEventListener('input', (e) => {
             const term = e.target.value.toLowerCase();
-            const blocks = document.querySelectorAll('.value-block');
+            const blocks = document.querySelectorAll('.main-container .value-block');
             blocks.forEach(block => {
                 const category = block.querySelector('input').value.toLowerCase();
                 const content = block.querySelector('textarea').value.toLowerCase();
